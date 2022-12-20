@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pegawai;
 use Illuminate\Http\Request;
 
 class HRDController extends Controller
@@ -15,6 +16,7 @@ class HRDController extends Controller
     public function pegawai_allcabang()
     {
         $title = 'HRD - Pegawai Semua Cabang MVCH Employee Management';
+        // dd(Pegawai::where('id', 1)->get());
         return view('hrd.pegawai_allcabang', compact('title'));
     }
     public function pegawai_colorado()
