@@ -32,6 +32,18 @@
                                     <th>Email</th>
                                 </thead>
                                 <tbody>
+                                    @foreach ($data as $no => $d)
+                                        <tr>
+                                            <td>{{ $no + 1 }}</td>
+                                            <td>{{ $d['employee_id'] }}</td>
+                                            <td>{{ $d['name'] }}</td>
+                                            <td>{{ $d['age'] }}</td>
+                                            <td>{{ $d['type'] }}</td>
+                                            <td>{{ $d['work_unit']['name'] }}</td>
+                                            <td>{{ $d['phone'] }}</td>
+                                            <td>{{ $d['email'] }}</td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

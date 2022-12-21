@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Jenssegers\Mongodb\Eloquent\Model;
 
-class Pegawai extends Model
+class Physicians extends Model
 {
     protected $connection = 'mongodb';
-    protected $collection = 'employee';
+    protected $collection = 'employee_physicians';
 }
