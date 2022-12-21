@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::controller(PegawaiController::class)->prefix('pegawai')->group(function () {
-    Route::get('/', [PegawaiController::class, 'index'])->name('pegawai');
+Route::middleware(['web'])->prefix('pegawai')->name('pegawai.')->group(function () {
+    Route::get('/', [PegawaiController::class, 'index'])->name('home');
+    Route::get('/profil', [PegawaiController::class, 'profil'])->name('profil');
+    Route::get('/cuti', [PegawaiController::class, 'cuti'])->name('cuti');
 });

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Manager;
 use App\Models\Nurse;
 use App\Models\Physicians;
+use App\Models\Staff;
+use App\Models\Technician;
 use Illuminate\Http\Request;
 
 class HRDController extends Controller
@@ -17,37 +20,91 @@ class HRDController extends Controller
     public function pegawai_allcabang()
     {
         $title = 'HRD - Pegawai Semua Cabang MVCH Employee Management';
-        $physc = Physicians::get(['employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'])->toArray();
-        $nurse = Nurse::get(['employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'])->toArray();
+        $physc = Physicians::get([
+            'employee_id', 'name', 'age', 'phone',
+            'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'
+        ])->toArray();
+        $nurse = Nurse::get([
+            'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'
+        ])->toArray();
+        $tech = Technician::get([
+            'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'
+        ])->toArray();
+        $staff = Staff::get([
+            'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'
+        ])->toArray();
+        $manager = Manager::get([
+            'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'
+        ])->toArray();
 
-        $data = array_merge($physc, $nurse);
+        $data = array_merge($physc, $nurse, $tech, $staff, $manager);
         return view('hrd.pegawai_allcabang', compact('title', 'data'));
     }
     public function pegawai_colorado()
     {
         $title = 'HRD - Pegawai Cabang Colorado MVCH Employee Management';
-        $physc = Physicians::where('work_unit.branch.branch_country', 'Colorado')->get(['employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name'])->toArray();
-        $nurse = Nurse::where('work_unit.branch.branch_country', 'Colorado')->get(['employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name'])->toArray();
+        $physc = Physicians::where('work_unit.branch.branch_country', 'Colorado')->get([
+            'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name'
+        ])->toArray();
+        $nurse = Nurse::where('work_unit.branch.branch_country', 'Colorado')->get([
+            'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name'
+        ])->toArray();
+        $tech = Technician::where('work_unit.branch.branch_country', 'Colorado')->get([
+            'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'
+        ])->toArray();
+        $staff = Staff::where('work_unit.branch.branch_country', 'Colorado')->get([
+            'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'
+        ])->toArray();
+        $manager = Manager::where('work_unit.branch.branch_country', 'Colorado')->get([
+            'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'
+        ])->toArray();
 
-        $data = array_merge($physc, $nurse);
+        $data = array_merge($physc, $nurse, $tech, $staff, $manager);
         return view('hrd.pegawai_colorado', compact('title', 'data'));
     }
     public function pegawai_california()
     {
         $title = 'HRD - Pegawai Cabang California MVCH Employee Management';
-        $physc = Physicians::where('work_unit.branch.branch_country', 'California')->get(['employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name'])->toArray();
-        $nurse = Nurse::where('work_unit.branch.branch_country', 'California')->get(['employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name'])->toArray();
+        $physc = Physicians::where('work_unit.branch.branch_country', 'California')->get([
+            'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name'
+        ])->toArray();
+        $nurse = Nurse::where('work_unit.branch.branch_country', 'California')->get([
+            'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name'
+        ])->toArray();
 
-        $data = array_merge($physc, $nurse);
+        $tech = Technician::where('work_unit.branch.branch_country', 'California')->get([
+            'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'
+        ])->toArray();
+        $staff = Staff::where('work_unit.branch.branch_country', 'California')->get([
+            'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'
+        ])->toArray();
+        $manager = Manager::where('work_unit.branch.branch_country', 'California')->get([
+            'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'
+        ])->toArray();
+
+        $data = array_merge($physc, $nurse, $tech, $staff, $manager);
         return view('hrd.pegawai_california', compact('title', 'data'));
     }
     public function pegawai_indonesia()
     {
         $title = 'HRD - Pegawai Cabang Indonesia MVCH Employee Management';
-        $physc = Physicians::where('work_unit.branch.branch_country', 'Indonesia')->get(['employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name'])->toArray();
-        $nurse = Nurse::where('work_unit.branch.branch_country', 'Indonesia')->get(['employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name'])->toArray();
+        $physc = Physicians::where('work_unit.branch.branch_country', 'Indonesia')->get([
+            'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name'
+        ])->toArray();
+        $nurse = Nurse::where('work_unit.branch.branch_country', 'Indonesia')->get([
+            'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name'
+        ])->toArray();
+        $tech = Technician::where('work_unit.branch.branch_country', 'Indonesia')->get([
+            'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'
+        ])->toArray();
+        $staff = Staff::where('work_unit.branch.branch_country', 'Indonesia')->get([
+            'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'
+        ])->toArray();
+        $manager = Manager::where('work_unit.branch.branch_country', 'Indonesia')->get([
+            'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'
+        ])->toArray();
 
-        $data = array_merge($physc, $nurse);
+        $data = array_merge($physc, $nurse, $tech, $staff, $manager);
         return view('hrd.pegawai_indonesia', compact('title', 'data'));
     }
     public function cuti_allcabang()
@@ -73,17 +130,53 @@ class HRDController extends Controller
     public function laporan_histori()
     {
         $title = 'HRD - Laporan Histori Pemindahan Pegawai MVCH Employee Management';
-        return view('hrd.laporan_histori', compact('title'));
+        $physc = Physicians::get([
+            'employee_id', 'name', 'placement_history'
+        ])->toArray();
+        $nurse = Nurse::get([
+            'employee_id', 'name', 'placement_history'
+        ])->toArray();
+        $tech = Technician::get([
+            'employee_id', 'name', 'placement_history'
+        ])->toArray();
+        $staff = Staff::get([
+            'employee_id', 'name', 'placement_history'
+        ])->toArray();
+        $manager = Manager::get([
+            'employee_id', 'name', 'placement_history'
+        ])->toArray();
+
+        $data = array_merge($physc, $nurse, $tech, $staff, $manager);
+        // dd($em)
+        return view('hrd.laporan_histori', compact('title', 'data'));
     }
     public function laporan_jumlah_pegawai()
     {
         $title = 'HRD - Laporan Jumlah Pegawai MVCH Employee Management';
+
         return view('hrd.laporan_jumlah_pegawai', compact('title'));
     }
     public function laporan_presensi_pegawai()
     {
         $title = 'HRD - Laporan Presensi Pegawai MVCH Employee Management';
-        return view('hrd.laporan_presensi_pegawai', compact('title'));
+        $physc = Physicians::get([
+            'employee_id', 'name', 'attendance', 'work_unit.name', 'work_unit.branch.branch_country'
+        ])->toArray();
+        $nurse = Nurse::get([
+            'employee_id', 'name', 'attendance', 'work_unit.name', 'work_unit.branch.branch_country'
+        ])->toArray();
+        $tech = Technician::get([
+            'employee_id', 'name', 'attendance', 'work_unit.name', 'work_unit.branch.branch_country'
+        ])->toArray();
+        $staff = Staff::get([
+            'employee_id', 'name', 'attendance', 'work_unit.name', 'work_unit.branch.branch_country'
+        ])->toArray();
+        $manager = Manager::get([
+            'employee_id', 'name', 'attendance', 'work_unit.name', 'work_unit.branch.branch_country'
+        ])->toArray();
+
+        $data = array_merge($physc, $nurse, $tech, $staff, $manager);
+        return view('hrd.laporan_presensi_pegawai', compact('title', 'data'));
     }
     public function laporan_pengajuan_cuti()
     {

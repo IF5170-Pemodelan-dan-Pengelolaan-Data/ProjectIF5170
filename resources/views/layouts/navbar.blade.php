@@ -13,8 +13,11 @@
                 <li><a class="text-dark" href="#!" onclick="javascript:toggleFullScreen()"><i
                             data-feather="maximize"></i></a></li>
                 <li class="onhover-dropdown p-0">
-                    <button class="btn btn-primary-light" type="button"><a href="{{ route('login') }}"><i
-                                data-feather="log-out"></i>Log out</a></button>
+                    <form method="POST" id="logout-form" action="{{ route('auth.logout') }}">
+                        @csrf
+                        <button class="btn btn-primary-light" type="submit"><i data-feather="log-out"></i>Log
+                            out</button>
+                    </form>
                 </li>
             </ul>
         </div>

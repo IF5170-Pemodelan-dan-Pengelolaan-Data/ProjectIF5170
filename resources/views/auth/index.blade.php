@@ -66,10 +66,16 @@
                 <div class="col-xl-5 p-0">
                     <div class="login-card">
 
-                        <form class="theme-form login-form" method="GET" action="{{ route('hrd.home') }}">
+                        <form class="theme-form login-form" method="POST" action="{{ route('auth.login') }}">
                             @csrf
                             <h4>Login</h4>
                             <h6>Welcome back! Log in to your account.</h6>
+                            @if (session('danger'))
+                                <div class="alert alert-danger">
+                                    {{ session('danger') }}
+                                </div>
+                            @endif
+
                             <div class="form-group">
                                 <label>Email</label>
                                 <div class="input-group"><span class="input-group-text"><i

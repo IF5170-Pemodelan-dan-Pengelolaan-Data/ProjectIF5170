@@ -8,7 +8,17 @@ class PegawaiController extends Controller
 {
     public function index()
     {
-        $title = 'Data Pegawai';
+        $title = 'Dashboard';
         return view('pegawai.index', compact('title'));
+    }
+    public function cuti()
+    {
+        $title = 'Dashboard';
+        return view('pegawai.cuti', compact('title'));
+    }
+    public function profil()
+    {
+        $title = 'Dashboard';
+        return view('pegawai.profil', compact('title'));
     }
 }

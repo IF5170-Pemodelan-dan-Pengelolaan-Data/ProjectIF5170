@@ -10,8 +10,8 @@
     <meta name="keywords"
         content="admin template, viho admin template, dashboard template, flat admin template, responsive admin template, web app">
     <meta name="author" content="pixelstrap">
-    <link rel="icon" href="../assets/images/favicon.png" type="image/x-icon">
-    <link rel="shortcut icon" href="../assets/images/favicon.png" type="image/x-icon">
+    <link rel="icon" href="{{ asset('assets/images/favicon.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" type="image/x-icon">
     <title>{{ $title }}</title>
     <!-- Google font-->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -75,6 +75,25 @@
             <div class="page-body">
                 <!-- Container-fluid starts-->
                 <div class="container-fluid dashboard-default-sec">
+                    <div class="row">
+                        @if (session('success'))
+                            <div class="success-session" data-flashdata="{{ session('success') }}"></div>
+                        @endif
+                        @if (session('warning'))
+                            <div class="warning-sync" data-flashdata="{{ session('warning') }}">
+                                <div class="alert alert-warning inverse alert-dismissible fade show" role="alert"><i
+                                        class="icon-alert txt-dark"></i>
+                                    <p><b> Perhatian ! </b> <br> {!! session('warning') !!}</p>
+                                    <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"
+                                        data-bs-original-title="" title=""></button>
+
+                                </div>
+                            </div>
+                        @endif
+                        @if (session('danger'))
+                            <div class="danger-session" data-flashdata="{{ session('danger') }}"></div>
+                        @endif
+                    </div>
                     @yield('content')
                 </div>
                 <!-- Container-fluid Ends-->
@@ -123,10 +142,70 @@
 
     <script src="{{ asset('assets/js/datatable/datatable-extension/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('assets/js/datatable/datatable-extension/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('assets/js/notify/bootstrap-notify.min.js') }}"></script>
+    <script src="{{ asset('assets/js/notify/notify-script.js') }}"></script>
     <!-- login js-->
     <!-- Plugin used-->
     <script>
         $("document").ready(function() {
+            let flashdatasukses = $('.success-session').data('flashdata');
+            let flashdatagagal = $('.danger-session').data('flashdata');
+            if (flashdatasukses) {
+                $.notify({
+                    title: 'Success',
+                    message: flashdatasukses
+                }, {
+                    type: 'primary',
+                    allow_dismiss: true,
+                    newest_on_top: false,
+                    mouse_over: true,
+                    showProgressbar: false,
+                    spacing: 10,
+                    timer: 1700,
+                    placement: {
+                        from: 'top',
+                        align: 'center'
+                    },
+                    offset: {
+                        x: 30,
+                        y: 30
+                    },
+                    delay: 1000,
+                    z_index: 10000,
+                    animate: {
+                        enter: 'animated bounce',
+                        exit: 'animated bounce'
+                    }
+                });
+            }
+            if (flashdatagagal) {
+                $.notify({
+                    title: 'danger',
+                    message: flashdatagagal
+                }, {
+                    type: 'danger',
+                    allow_dismiss: true,
+                    newest_on_top: false,
+                    mouse_over: true,
+                    showProgressbar: false,
+                    spacing: 10,
+                    timer: 1700,
+                    placement: {
+                        from: 'top',
+                        align: 'center'
+                    },
+                    offset: {
+                        x: 30,
+                        y: 30
+                    },
+                    delay: 1000,
+                    z_index: 10000,
+                    animate: {
+                        enter: 'animated bounce',
+                        exit: 'animated bounce'
+                    }
+                });
+            }
             $('#maintable').DataTable();
         });
     </script>
