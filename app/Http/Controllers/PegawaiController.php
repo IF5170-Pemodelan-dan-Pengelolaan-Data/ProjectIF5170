@@ -3,22 +3,35 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Session;
 
 class PegawaiController extends Controller
 {
     public function index()
     {
-        $title = 'Dashboard';
-        return view('pegawai.index', compact('title'));
+        if (Session::has('data')) {
+            $title = 'Dashboard';
+            return view('pegawai.index', compact('title'));
+        } else {
+            return redirect()->route('login')->with('logout', 'You are not authenticated');
+        }
     }
     public function cuti()
     {
-        $title = 'Dashboard';
-        return view('pegawai.cuti', compact('title'));
+        if (Session::has('data')) {
+            $title = 'Dashboard';
+            return view('pegawai.cuti', compact('title'));
+        } else {
+            return redirect()->route('login')->with('logout', 'You are not authenticated');
+        }
     }
     public function profil()
     {
-        $title = 'Dashboard';
-        return view('pegawai.profil', compact('title'));
+        if (Session::has('data')) {
+            $title = 'Dashboard';
+            return view('pegawai.profil', compact('title'));
+        } else {
+            return redirect()->route('login')->with('logout', 'You are not authenticated');
+        }
     }
 }
