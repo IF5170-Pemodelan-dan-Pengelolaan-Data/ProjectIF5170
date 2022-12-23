@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Employee;
 use App\Models\HRD;
 use App\Models\Manager;
 use App\Models\Nurse;
@@ -22,53 +23,33 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $physc = Physicians::where([
-            'email' => $request->email,
-            'password' => (int)$request->password
-        ])->first();
-        $nurse = Nurse::where([
-            'email' => $request->email,
-            'password' => (int)$request->password
-        ])->first();
-        $tech = Technician::where([
-            'email' => $request->email,
-            'password' => (int)$request->password
-        ])->first();
-        $staff = Staff::where([
-            'email' => $request->email,
-            'password' => (int)$request->password
-        ])->first();
-        $hrd = HRD::where([
-            'email' => $request->email,
-            'password' => (int)$request->password
-        ])->first();
-        $manager = Manager::where([
+        $employee = Employee::where([
             'email' => $request->email,
             'password' => (int)$request->password
         ])->first();
         // dd($hrd);
-        if ($physc) {
-            Session::put('data', $physc);
+        if ($employee['type'] == 'Physicians') {
+            Session::put('data', $employee);
             Session::put('login', 'Physician');
             return redirect()->intended('pegawai')->with('success', 'Berhasil Login');
-        } elseif ($nurse) {
-            Session::put('data', $nurse);
+        } elseif ($employee['type'] == 'Nurse') {
+            Session::put('data', $employee);
             Session::put('login', 'Nurse');
             return redirect()->intended('pegawai')->with('success', 'Berhasil Login');
-        } elseif ($tech) {
-            Session::put('data', $tech);
-            Session::put('login', 'Technician');
+        } elseif ($employee['type'] == 'Technician') {
+            Session::put('data', $employee);
+            Session::put('login', 'technician');
             return redirect()->intended('pegawai')->with('success', 'Berhasil Login');
-        } elseif ($staff) {
-            Session::put('data', $staff);
+        } elseif ($employee['type'] == 'staff') {
+            Session::put('data', $employee);
             Session::put('login', 'Staff');
             return redirect()->intended('pegawai')->with('success', 'Berhasil Login');
-        } elseif ($hrd) {
-            Session::put('data', $hrd);
+        } elseif ($employee['type'] == 'hrd') {
+            Session::put('data', $employee);
             Session::put('login', 'HRD');
             return redirect()->intended('hrd')->with('success', 'Berhasil Login');
-        } elseif ($manager) {
-            Session::put('data', $manager);
+        } elseif ($employee['type'] == 'branch manager') {
+            Session::put('data', $employee);
             Session::put('login', 'Manager');
             return redirect()->intended('manager')->with('success', 'Berhasil Login');
         } else {

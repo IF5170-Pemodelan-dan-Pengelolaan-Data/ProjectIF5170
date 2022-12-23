@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Branch;
+use App\Models\Employee;
 use App\Models\Manager;
 use App\Models\Nurse;
 use App\Models\Physicians;
@@ -9,6 +11,8 @@ use App\Models\Staff;
 use App\Models\Technician;
 use Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use UnexpectedValueException;
 
 class HRDController extends Controller
 {
@@ -16,7 +20,36 @@ class HRDController extends Controller
     {
         if (Session::has('data')) {
             $title = 'HRD - MVCH Employee Management';
-            return view('hrd.index', compact('title'));
+            $branch = Branch::raw(function ($collection) {
+                return $collection->aggregate(array(
+                    array(
+                        '$unwind' => '$employee_statistics'
+                    ),
+                    array(
+                        '$group' => array(
+                            '_id' => array(
+                                'month' => '$employee_statistics.month',
+                                'year' => '$employee_statistics.year'
+                            ),
+                            'physicians' => array(
+                                '$avg' => '$employee_statistics.physicians'
+                            ),
+                            'nurse' => array(
+                                '$avg' => '$employee_statistics.nurse'
+                            ),
+                            'staff' => array(
+                                '$avg' => '$employee_statistics.staff'
+                            ),
+                            'technicians' => array(
+                                '$avg' => '$employee_statistics.technicians'
+                            ),
+
+                        )
+                    )
+                ));
+            })->toArray();
+            // dd($branch);
+            return view('hrd.index', compact('title', 'branch'));
         } else {
             return redirect()->route('login')->with('logout', 'You are not authenticated');
         }
@@ -26,24 +59,11 @@ class HRDController extends Controller
     {
         if (Session::has('data')) {
             $title = 'HRD - Pegawai Semua Cabang MVCH Employee Management';
-            $physc = Physicians::get([
-                'employee_id', 'name', 'age', 'phone',
+            $data = Employee::get([
+                '_id', 'name', 'age', 'phone',
                 'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'
             ])->toArray();
-            $nurse = Nurse::get([
-                'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'
-            ])->toArray();
-            $tech = Technician::get([
-                'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'
-            ])->toArray();
-            $staff = Staff::get([
-                'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'
-            ])->toArray();
-            $manager = Manager::get([
-                'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'
-            ])->toArray();
-
-            $data = array_merge($physc, $nurse, $tech, $staff, $manager);
+            // dd($data);
             return view('hrd.pegawai_allcabang', compact('title', 'data'));
         } else {
             return redirect()->route('login')->with('logout', 'You are not authenticated');
@@ -53,23 +73,10 @@ class HRDController extends Controller
     {
         if (Session::has('data')) {
             $title = 'HRD - Pegawai Cabang Colorado MVCH Employee Management';
-            $physc = Physicians::where('work_unit.branch.branch_country', 'Colorado')->get([
-                'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name'
+            $data = Employee::where('work_unit.branch.branch_country', 'Colorado')->get([
+                '_id', 'name', 'age', 'phone',
+                'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'
             ])->toArray();
-            $nurse = Nurse::where('work_unit.branch.branch_country', 'Colorado')->get([
-                'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name'
-            ])->toArray();
-            $tech = Technician::where('work_unit.branch.branch_country', 'Colorado')->get([
-                'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'
-            ])->toArray();
-            $staff = Staff::where('work_unit.branch.branch_country', 'Colorado')->get([
-                'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'
-            ])->toArray();
-            $manager = Manager::where('work_unit.branch.branch_country', 'Colorado')->get([
-                'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'
-            ])->toArray();
-
-            $data = array_merge($physc, $nurse, $tech, $staff, $manager);
             return view('hrd.pegawai_colorado', compact('title', 'data'));
         } else {
             return redirect()->route('login')->with('logout', 'You are not authenticated');
@@ -79,24 +86,10 @@ class HRDController extends Controller
     {
         if (Session::has('data')) {
             $title = 'HRD - Pegawai Cabang California MVCH Employee Management';
-            $physc = Physicians::where('work_unit.branch.branch_country', 'California')->get([
-                'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name'
+            $data = Employee::where('work_unit.branch.branch_country', 'California')->get([
+                '_id', 'name', 'age', 'phone',
+                'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'
             ])->toArray();
-            $nurse = Nurse::where('work_unit.branch.branch_country', 'California')->get([
-                'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name'
-            ])->toArray();
-
-            $tech = Technician::where('work_unit.branch.branch_country', 'California')->get([
-                'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'
-            ])->toArray();
-            $staff = Staff::where('work_unit.branch.branch_country', 'California')->get([
-                'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'
-            ])->toArray();
-            $manager = Manager::where('work_unit.branch.branch_country', 'California')->get([
-                'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'
-            ])->toArray();
-
-            $data = array_merge($physc, $nurse, $tech, $staff, $manager);
             return view('hrd.pegawai_california', compact('title', 'data'));
         } else {
             return redirect()->route('login')->with('logout', 'You are not authenticated');
@@ -106,23 +99,10 @@ class HRDController extends Controller
     {
         if (Session::has('data')) {
             $title = 'HRD - Pegawai Cabang Indonesia MVCH Employee Management';
-            $physc = Physicians::where('work_unit.branch.branch_country', 'Indonesia')->get([
-                'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name'
+            $data = Employee::where('work_unit.branch.branch_country', 'Indonesia')->get([
+                '_id', 'name', 'age', 'phone',
+                'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'
             ])->toArray();
-            $nurse = Nurse::where('work_unit.branch.branch_country', 'Indonesia')->get([
-                'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name'
-            ])->toArray();
-            $tech = Technician::where('work_unit.branch.branch_country', 'Indonesia')->get([
-                'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'
-            ])->toArray();
-            $staff = Staff::where('work_unit.branch.branch_country', 'Indonesia')->get([
-                'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'
-            ])->toArray();
-            $manager = Manager::where('work_unit.branch.branch_country', 'Indonesia')->get([
-                'employee_id', 'name', 'age', 'phone', 'email', 'type', 'work_unit.name', 'work_unit.branch.branch_country'
-            ])->toArray();
-
-            $data = array_merge($physc, $nurse, $tech, $staff, $manager);
             return view('hrd.pegawai_indonesia', compact('title', 'data'));
         } else {
             return redirect()->route('login')->with('logout', 'You are not authenticated');
