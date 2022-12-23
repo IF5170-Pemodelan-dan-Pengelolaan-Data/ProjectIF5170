@@ -180,7 +180,7 @@
             }
             if (flashdatagagal) {
                 $.notify({
-                    title: 'danger',
+                    title: 'Error',
                     message: flashdatagagal
                 }, {
                     type: 'danger',

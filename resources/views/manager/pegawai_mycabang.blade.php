@@ -4,10 +4,11 @@
         <div class="page-header">
             <div class="row">
                 <div class="col-lg-6">
-                    <h3>Data Pegawai (Semua Cabang)</h3>
+                    <h3>Data Pegawai ({{ Session::get('data')['work_unit']['branch']['branch_country'] }})</h3>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">Data Pegawai</li>
-                        <li class="breadcrumb-item active">Semua Cabang</li>
+                        <li class="breadcrumb-item active">
+                            {{ Session::get('data')['work_unit']['branch']['branch_country'] }}</li>
                     </ol>
                 </div>
             </div>

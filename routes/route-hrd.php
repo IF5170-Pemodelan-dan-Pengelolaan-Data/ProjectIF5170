@@ -24,6 +24,7 @@ Route::middleware(['web'])->prefix('hrd')->name('hrd.')->group(function () {
         Route::get('/california', [HRDController::class, 'pegawai_california'])->name('california');
         Route::get('/indonesia', [HRDController::class, 'pegawai_indonesia'])->name('indonesia');
         Route::get('/getJumlahPegawai', [HRDController::class, 'getJumlahPegawai'])->name('getJumlahPegawai');
+        Route::get('/getJumlahProfesi', [HRDController::class, 'getJumlahProfesi'])->name('getJumlahProfesi');
     });
     // Route cuti
     Route::prefix('cuti')->name('cuti.')->group(function () {
