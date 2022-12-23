@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Branch;
 use App\Models\Employee;
 use App\Models\Manager;
 use App\Models\Nurse;
@@ -94,7 +95,35 @@ class ManagerController extends Controller
     {
         if (Session::has('data')) {
             $title = 'Manager - Laporan Jumlah Pegawai MVCH Employee Management';
-            return view('manager.laporan_jumlah_pegawai', compact('title'));
+            $branch = Branch::raw(function ($collection) {
+                return $collection->aggregate(array(
+                    array(
+                        '$unwind' => '$employee_statistics'
+                    ),
+                    array(
+                        '$group' => array(
+                            '_id' => array(
+                                'month' => '$employee_statistics.month',
+                                'year' => '$employee_statistics.year'
+                            ),
+                            'physicians' => array(
+                                '$avg' => '$employee_statistics.physicians'
+                            ),
+                            'nurse' => array(
+                                '$avg' => '$employee_statistics.nurse'
+                            ),
+                            'staff' => array(
+                                '$avg' => '$employee_statistics.staff'
+                            ),
+                            'technicians' => array(
+                                '$avg' => '$employee_statistics.technicians'
+                            ),
+
+                        )
+                    )
+                ));
+            })->toArray();
+            return view('manager.laporan_jumlah_pegawai', compact('title', 'branch'));
         } else {
             return redirect()->route('login')->with('logout', 'You are not authenticated');
         }

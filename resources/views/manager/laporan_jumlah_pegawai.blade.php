@@ -13,4 +13,40 @@
             </div>
         </div>
     </div>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Zero Configuration  Starts-->
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="dt-ext table-responsive">
+                            <table class="dataTable" id="maintable">
+                                <thead>
+                                    <th>No</th>
+                                    <th>Bulan</th>
+                                    <th>Physician</th>
+                                    <th>Nurse</th>
+                                    <th>Technician</th>
+                                    <th>Staff</th>
+                                </thead>
+                                <tbody>
+                                    @foreach ($branch as $no => $d)
+                                        <tr>
+                                            <td>{{ $no + 1 }}</td>
+                                            <td>{{ $d['_id']['month'] . ' ' . $d['_id']['year'] }}</td>
+                                            <td>{{ $d['physicians'] }}</td>
+                                            <td>{{ $d['nurse'] }}</td>
+                                            <td>{{ $d['technicians'] }}</td>
+                                            <td>{{ $d['staff'] }}</td>
+
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

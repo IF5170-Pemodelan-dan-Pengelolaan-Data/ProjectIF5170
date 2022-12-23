@@ -36,7 +36,7 @@
                                         @if (array_key_exists('leave', $d))
                                             @foreach ($d['leave'] as $d2)
                                                 <tr>
-                                                    <td>{{ $d['employee_id'] }}</td>
+                                                    <td>{{ $d['_id'] }}</td>
                                                     <td>{{ $d['name'] }}</td>
                                                     <td>{{ $d2['request_date'] }}</td>
                                                     <td>{{ $d2['date_from'] }}</td>
