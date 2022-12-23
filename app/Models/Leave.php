@@ -10,4 +10,5 @@ class Leave extends Model
     use HasFactory;
     protected $connection = 'mongodb';
     protected $collection = 'leave';
+    protected $guarded = [];
 }

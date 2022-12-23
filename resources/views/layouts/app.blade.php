@@ -135,6 +135,8 @@
     {{-- <script src="{{ asset('assets/js/notify/index.js') }}"></script> --}}
     <!-- Plugins JS Ends-->
     <!-- Theme js-->
+    <script src="{{ asset('assets/js/datepicker/date-picker/datepicker.js') }}"></script>
+    <script src="{{ asset('assets/js/datepicker/date-picker/datepicker.en.js') }}"></script>
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="{{ asset('assets/js/theme-customizer/customizer.js') }}"></script>
     <script src="{{ asset('assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>

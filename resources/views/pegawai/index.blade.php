@@ -7,7 +7,7 @@
                 <div class="col-lg-6">
                     <h3>Dashboard</h3>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active">Dashboar Pegawai</li>
+                        <li class="breadcrumb-item active">Dashboard Pegawai</li>
                     </ol>
                 </div>
             </div>

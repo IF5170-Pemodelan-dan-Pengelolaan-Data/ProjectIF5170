@@ -1488,7 +1488,9 @@
     };
 
     $(function () {
-        $(autoInitSelector).datepicker();
+        $(autoInitSelector).datepicker({
+            dateFormat: 'yyyy-mm-dd',
+        });
     })
 
 })();
