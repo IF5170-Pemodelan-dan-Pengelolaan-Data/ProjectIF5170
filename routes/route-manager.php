@@ -20,10 +20,14 @@ Route::middleware(['web'])->prefix('manager')->name('manager.')->group(function 
     // Route Pegawai
     Route::prefix('pegawai')->name('pegawai.')->group(function () {
         Route::get('/mycabang', [ManagerController::class, 'pegawai_mycabang'])->name('mycabang');
+        Route::get('/getJumlahPegawai', [ManagerController::class, 'getJumlahPegawai'])->name('getJumlahPegawai');
+        Route::get('/getJumlahProfesi', [ManagerController::class, 'getJumlahProfesi'])->name('getJumlahProfesi');
     });
     // Route cuti
     Route::prefix('cuti')->name('cuti.')->group(function () {
         Route::get('/mycabang', [ManagerController::class, 'cuti_mycabang'])->name('mycabang');
+        Route::get('/appr/{id}', [ManagerController::class, 'appr_cuti'])->name('appr');
+        Route::get('/dec/{id}', [ManagerController::class, 'dec_cuti'])->name('dec');
     });
     // Route laporan
     Route::prefix('laporan')->name('laporan.')->group(function () {

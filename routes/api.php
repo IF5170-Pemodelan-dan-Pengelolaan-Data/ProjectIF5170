@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware(['api'])->group(function () {
+    Route::prefix('pegawai')->name('pegawai.')->group(function () {
+        Route::get('/api_presensi_pegawai', [HRDController::class, 'api_presensi_pegawai'])->name('api_presensi_pegawai');
+    });
 });

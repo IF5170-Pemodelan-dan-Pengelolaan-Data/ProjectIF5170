@@ -42,7 +42,7 @@
                                     @foreach ($data as $d)
                                         @foreach ($d['attendance'] as $d2)
                                             <tr>
-                                                <td>{{ $d['employee_id'] }}</td>
+                                                <td>{{ $d['_id'] }}</td>
                                                 <td>{{ $d['name'] }}</td>
                                                 <td>{{ $d['work_unit']['branch']['branch_country'] }}</td>
                                                 <td>{{ $d['work_unit']['name'] }}</td>
@@ -51,7 +51,8 @@
                                                 <td>{{ $d2['sick'] }}</td>
                                                 <td>{{ $d2['leave'] }}</td>
                                                 <td>{{ $d2['alpha'] }}</td>
-                                                <td>{{ $d2['score'] }}</td>
+                                                <td>{{ round(($d2['present'] / ($d2['present'] + $d2['sick'] + $d2['leave'] + $d2['alpha'])) * 100) . ' %' }}
+                                                </td>
                                             </tr>
                                         @endforeach
                                     @endforeach

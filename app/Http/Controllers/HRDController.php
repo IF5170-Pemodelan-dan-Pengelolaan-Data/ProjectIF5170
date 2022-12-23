@@ -20,7 +20,20 @@ class HRDController extends Controller
     {
         if (Session::has('data')) {
             $title = 'HRD - MVCH Employee Management';
-            return view('hrd.index', compact('title'));
+            $value_pegawai = Employee::raw(function ($collection) {
+                return $collection->aggregate(array(
+                    array(
+                        '$group' => array(
+                            '_id' => '$employee.type',
+                            'count' => array('$sum' => 1)
+                        )
+                    )
+                ));
+            })->toArray();
+            $data = [
+                'total_pegawai' => $value_pegawai
+            ];
+            return view('hrd.index', compact('title', 'data'));
         } else {
             return redirect()->route('login')->with('logout', 'You are not authenticated');
         }
@@ -61,6 +74,27 @@ class HRDController extends Controller
         foreach ($branch as $b) {
             array_push($labels, $b['_id']['month']);
             array_push($values, round(($b['physicians'] + $b['nurse'] + $b['staff'] + $b['technicians']) / 4));
+        }
+        return response()->json(['labels' => $labels, 'values' => $values]);
+    }
+    public function getJumlahProfesi()
+    {
+        $branch = Employee::raw(function ($collection) {
+            return $collection->aggregate(array(
+                array(
+                    '$group' => array(
+                        '_id' => '$type',
+                        'count' => array('$sum' => 1)
+                    )
+                )
+            ));
+        })->toArray();
+        // dd($branch);
+        $labels = [];
+        $values = [];
+        foreach ($branch as $b) {
+            array_push($labels, $b['_id']);
+            array_push($values, $b['count']);
         }
         return response()->json(['labels' => $labels, 'values' => $values]);
     }
@@ -235,27 +269,21 @@ class HRDController extends Controller
     {
         if (Session::has('data')) {
             $title = 'HRD - Laporan Presensi Pegawai MVCH Employee Management';
-            $physc = Physicians::get([
-                'employee_id', 'name', 'attendance', 'work_unit.name', 'work_unit.branch.branch_country'
+            $data = Employee::with(['attendance'])->get([
+                '_id', 'name', 'attendance', 'work_unit.name', 'work_unit.branch.branch_country'
             ])->toArray();
-            $nurse = Nurse::get([
-                'employee_id', 'name', 'attendance', 'work_unit.name', 'work_unit.branch.branch_country'
-            ])->toArray();
-            $tech = Technician::get([
-                'employee_id', 'name', 'attendance', 'work_unit.name', 'work_unit.branch.branch_country'
-            ])->toArray();
-            $staff = Staff::get([
-                'employee_id', 'name', 'attendance', 'work_unit.name', 'work_unit.branch.branch_country'
-            ])->toArray();
-            $manager = Manager::get([
-                'employee_id', 'name', 'attendance', 'work_unit.name', 'work_unit.branch.branch_country'
-            ])->toArray();
-
-            $data = array_merge($physc, $nurse, $tech, $staff, $manager);
+            // dd($data);
             return view('hrd.laporan_presensi_pegawai', compact('title', 'data'));
         } else {
             return redirect()->route('login')->with('logout', 'You are not authenticated');
         }
+    }
+    public function api_presensi_pegawai()
+    {
+        $data = Employee::with(['attendance'])->get([
+            '_id', 'name', 'attendance', 'work_unit.name', 'work_unit.branch.branch_country'
+        ])->toArray();
+        return response()->json($data);
     }
     public function laporan_pengajuan_cuti()
     {

@@ -36,13 +36,21 @@
                                         @if (array_key_exists('leave', $d))
                                             @foreach ($d['leave'] as $d2)
                                                 <tr>
-                                                    <td>{{ $d['employee_id'] }}</td>
+                                                    <td>{{ $d['_id'] }}</td>
                                                     <td>{{ $d['name'] }}</td>
                                                     <td>{{ $d2['request_date'] }}</td>
                                                     <td>{{ $d2['date_from'] }}</td>
                                                     <td>{{ $d2['date_to'] }}</td>
                                                     <td>{{ $d2['type'] }}</td>
-                                                    <td>{{ $d2['approval_status'] }}</td>
+                                                    <td>
+                                                        @if ($d2['approval_status'] == 'approved')
+                                                            <span
+                                                                class="badge badge-success">{{ $d2['approval_status'] }}</span>
+                                                        @else
+                                                            <span
+                                                                class="badge badge-danger">{{ $d2['approval_status'] }}</span>
+                                                        @endif
+                                                    </td>
                                                     <td>{{ $d['work_unit']['branch']['branch_country'] }}</td>
                                                 </tr>
                                             @endforeach
