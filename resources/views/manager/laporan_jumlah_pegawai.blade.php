@@ -34,10 +34,10 @@
                                         <tr>
                                             <td>{{ $no + 1 }}</td>
                                             <td>{{ $d['_id']['month'] . ' ' . $d['_id']['year'] }}</td>
-                                            <td>{{ $d['physicians'] }}</td>
-                                            <td>{{ $d['nurse'] }}</td>
-                                            <td>{{ $d['technicians'] }}</td>
-                                            <td>{{ $d['staff'] }}</td>
+                                            <td>{{ round($d['physicians']) }}</td>
+                                            <td>{{ round($d['nurse']) }}</td>
+                                            <td>{{ round($d['technicians']) }}</td>
+                                            <td>{{ round($d['staff']) }}</td>
 
                                         </tr>
                                     @endforeach

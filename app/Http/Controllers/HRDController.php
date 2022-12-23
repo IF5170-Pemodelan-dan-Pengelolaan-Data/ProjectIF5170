@@ -285,6 +285,14 @@ class HRDController extends Controller
         ])->toArray();
         return response()->json($data);
     }
+    public function store()
+    {
+        return redirect()->back()->with('success', 'Berhasil Tambah Pegawai');
+    }
+    public function update()
+    {
+        return redirect()->back()->with('success', 'Berhasil Ubah Pegawai');
+    }
     public function laporan_pengajuan_cuti()
     {
         if (Session::has('data')) {

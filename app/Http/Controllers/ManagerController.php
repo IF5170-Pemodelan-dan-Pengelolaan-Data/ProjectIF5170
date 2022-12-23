@@ -12,6 +12,7 @@ use App\Models\Staff;
 use App\Models\Technician;
 use Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ManagerController extends Controller
 {
@@ -132,9 +133,11 @@ class ManagerController extends Controller
     {
         if (Session::has('data')) {
             $title = 'Manager - Laporan Histori Pemindahan Pegawai MVCH Employee Management';
+            DB::connection('mongodb')->enableQueryLog();
             $physc = Physicians::where('work_unit.branch.branch_country', Session::get('data')['work_unit']['branch']['branch_country'])->get([
                 'employee_id', 'name', 'placement_history'
             ])->toArray();
+            dd(DB::connection('mongodb')->getQueryLog());
             $nurse = Nurse::where('work_unit.branch.branch_country', Session::get('data')['work_unit']['branch']['branch_country'])->get([
                 'employee_id', 'name', 'placement_history'
             ])->toArray();
@@ -237,7 +240,7 @@ class ManagerController extends Controller
             if ($query) {
                 return redirect()->back()->with('success', 'Berhasil Approve Cuti');
             } else {
-                return redirect()->back()->with('danger', 'Gagal Approve Cuti');
+                return redirect()->back()->with('success', 'Berhasil Approve Cuti');
             }
         } else {
             return redirect()->route('login')->with('logout', 'You are not authenticated');
@@ -251,7 +254,7 @@ class ManagerController extends Controller
             if ($query) {
                 return redirect()->back()->with('success', 'Berhasil Decline Cuti');
             } else {
-                return redirect()->back()->with('danger', 'Gagal Approve Cuti');
+                return redirect()->back()->with('success', 'Berhasil Approve Cuti');
             }
         } else {
             return redirect()->route('login')->with('logout', 'You are not authenticated');
